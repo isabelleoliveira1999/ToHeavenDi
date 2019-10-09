@@ -1,5 +1,6 @@
 package com.isa.silva.idizimo.Activity;
 
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
@@ -69,7 +70,10 @@ public class HomeActivity extends AppCompatActivity {
                 .withTextColor(getResources().getColor(R.color.menuWhite))
                 .withSelectedColor(getResources().getColor(R.color.menuRed))
                 .withSelectedTextColor(getResources().getColor(R.color.menuWhite));
-
+        PrimaryDrawerItem item7 = new PrimaryDrawerItem().withIdentifier(7).withName("Sair")
+                .withTextColor(getResources().getColor(R.color.menuWhite))
+                .withSelectedColor(getResources().getColor(R.color.menuRed))
+                .withSelectedTextColor(getResources().getColor(R.color.menuWhite));
 
         //Definição do Drawer
         Drawer drawer = new DrawerBuilder()
@@ -82,7 +86,8 @@ public class HomeActivity extends AppCompatActivity {
                         item3.withIcon(R.drawable.ic_bible),
                         item4.withIcon(R.drawable.ic_church),
                         item5.withIcon(R.drawable.ic_donate),
-                        item6.withIcon(R.drawable.ic_resume)
+                        item6.withIcon(R.drawable.ic_resume),
+                        item7.withIcon(R.drawable.ic_logout)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -118,6 +123,10 @@ public class HomeActivity extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.container, new PerfilFragment())
                                     .commit();
+                        }else if(((Nameable) drawerItem).getName().getText(HomeActivity.this) == "Sair"){
+                                  finish();
+                            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                            startActivity(intent); //Abre a segunda activity
                         }
 
 
