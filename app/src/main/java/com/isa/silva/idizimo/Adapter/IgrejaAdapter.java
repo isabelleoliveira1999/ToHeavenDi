@@ -3,32 +3,41 @@ package com.isa.silva.idizimo.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.isa.silva.idizimo.R;
 
-public class OracoesAdapter extends RecyclerView.Adapter<OracoesAdapter.ViewHolder> {
+public class IgrejaAdapter extends RecyclerView.Adapter<IgrejaAdapter.ViewHolder> {
 
-    private TextView txt_oracao;
+    private TextView txt_nome;
     private TextView txt_data;
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    private TextView txt_mural;
+    private ImageView img_mural;
+public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(View itemView) {
-            super(itemView);
+    public ViewHolder(View itemView) {
+        super(itemView);
 
-        }
     }
+}
 
-    public OracoesAdapter() {
+    public IgrejaAdapter() {
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.item_oracoes, parent, false);
+        View itemView = inflater.inflate(R.layout.item_igreja, parent, false);
 
-        txt_oracao = itemView.findViewById(R.id.txt_oracao);
+
+        txt_mural = itemView.findViewById(R.id.txt_mural);
+        txt_nome = itemView.findViewById(R.id.txt_nome);
         txt_data = itemView.findViewById(R.id.txt_data);
+        img_mural = itemView.findViewById(R.id.img_mural);
+
 
         return new ViewHolder(itemView);
     }
@@ -36,7 +45,7 @@ public class OracoesAdapter extends RecyclerView.Adapter<OracoesAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.setIsRecyclable(false);
+    holder.setIsRecyclable(false);
     }
 
     @Override
