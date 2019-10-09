@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">IDizimo</string>
+    <string name="mail">Digite seu email</string>
+    <string name="password">Digite a senha</string>
+    <string name="telephone">Digite o telefone</string>
+    <string name="passConfirm">Confirme a senha</string>
+    <string name="name">Digite seu nome</string>
+
+</resources>

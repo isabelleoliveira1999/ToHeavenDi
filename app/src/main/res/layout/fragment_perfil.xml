@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:id="@+id/container"
+                android:layout_marginTop="60dp"
+                android:orientation="vertical"
+                android:background="@color/backgroundGray"
+                android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       android:layout_centerInParent="true"
+                                       android:padding="40dp"
+                                       android:layout_margin="20dp"
+                                       app:cardCornerRadius="6dp">
+        <LinearLayout android:layout_width="match_parent"
+                      android:orientation="vertical"
+                      android:layout_margin="30dp"
+                      android:layout_height="match_parent">
+
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+            >
+                <ImageView android:layout_width="30dp"
+                           android:layout_height="30dp"
+                           android:src="@drawable/ic_user"/>
+                <EditText android:id="@+id/edt_user"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+            >
+                <ImageView android:layout_width="30dp"
+                           android:layout_height="30dp"
+                           android:src="@drawable/ic_mail"/>
+                <EditText android:id="@+id/edt_mail"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+            >
+                <ImageView android:layout_width="30dp"
+                           android:layout_height="30dp"
+                           android:src="@drawable/ic_tell"/>
+                <EditText android:id="@+id/edt_tel"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <androidx.cardview.widget.CardView android:layout_width="match_parent"
+                                               app:cardCornerRadius="10dp"
+                                               android:layout_marginTop="10dp"
+                                               app:cardBackgroundColor="@color/colorPrimaryDark"
+                                               android:layout_height="wrap_content">
+                <Button android:id="@+id/btn_alterar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Salvar"
+                        android:background="@color/colorPrimaryDark"
+                        android:textColor="@color/colorPrimary"/>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

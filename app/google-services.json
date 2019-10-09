@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "696616013149",
+    "firebase_url": "https://idizimo-46038.firebaseio.com",
+    "project_id": "idizimo-46038",
+    "storage_bucket": "idizimo-46038.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696616013149:android:220343262cd3254b60acb4",
+        "android_client_info": {
+          "package_name": "com.isa.silva.idizimo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "696616013149-5jhoeqtej51e7nkpulsm3rrt88tm41i5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBau0DjUDXvkRdY6NSU973CvIqKYMDFYeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "696616013149-5jhoeqtej51e7nkpulsm3rrt88tm41i5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

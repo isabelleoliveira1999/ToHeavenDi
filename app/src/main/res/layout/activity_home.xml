@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/container"
+                android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/colorPrimaryDark"
+            android:id="@+id/toolbar">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_margin="5dp"
+                      android:orientation="horizontal">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/txt_title"
+                      android:textAlignment="center"
+                      android:text="@string/app_name"
+                      android:layout_weight="1"
+                      android:gravity="center"
+                      android:textColor="@color/colorPrimary"
+                      android:textSize="20dp"
+                      android:textStyle="bold"
+                      android:layout_gravity="center"
+                      android:layout_marginRight="40dp"
+                      android:layout_marginLeft="20dp"/>
+        <ImageView android:layout_width="40dp"
+                   android:layout_height="40dp"
+                   android:id="@+id/img_ico"
+                   android:src="@drawable/ic_monster"
+                   android:layout_gravity="right"
+        />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+
+</RelativeLayout>
