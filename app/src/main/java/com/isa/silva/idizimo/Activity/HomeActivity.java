@@ -8,19 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.isa.silva.idizimo.Fragment.*;
 import com.isa.silva.idizimo.R;
-import com.microsoft.appcenter.AppCenter;
-import com.microsoft.appcenter.push.Push;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
-import com.microsoft.appcenter.AppCenter;
-import com.microsoft.appcenter.analytics.Analytics;
-import com.microsoft.appcenter.crashes.Crashes;
-import java.text.ParseException;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -35,8 +27,6 @@ public class HomeActivity extends AppCompatActivity {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
-        AppCenter.start(getApplication(), "edc58bf2-3b64-41f8-bf8d-84c28728013a",
-                Analytics.class, Crashes.class, Push.class);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, new HomeFragment())
                 .commit();

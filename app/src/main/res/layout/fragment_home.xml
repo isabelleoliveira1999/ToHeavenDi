@@ -8,10 +8,9 @@
                 android:layout_height="match_parent">
 
 
-    <ImageView
+    <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/imageView"
-            android:src="@drawable/ic_monster"
+            android:id="@+id/rv_mural"
            />
 </RelativeLayout>
