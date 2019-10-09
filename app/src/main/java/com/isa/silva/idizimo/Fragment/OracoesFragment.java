@@ -21,7 +21,7 @@ public class OracoesFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.rv_oracoes);
 
-        OracoesAdapter oracoesAdapter = new OracoesAdapter();
+        OracoesAdapter oracoesAdapter = new OracoesAdapter(getContext());
 
         RecyclerView.LayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getContext());

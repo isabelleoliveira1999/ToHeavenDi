@@ -17,7 +17,7 @@
                       android:layout_height="wrap_content"
                       android:id="@+id/txt_title"
                       android:textAlignment="center"
-                      android:text="@string/app_name"
+                      android:text="Minha Home"
                       android:layout_weight="1"
                       android:gravity="center"
                       android:textColor="@color/colorPrimary"

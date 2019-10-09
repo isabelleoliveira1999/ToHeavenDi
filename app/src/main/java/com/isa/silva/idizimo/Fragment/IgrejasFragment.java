@@ -21,7 +21,7 @@ public class IgrejasFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = view.findViewById(R.id.rv_mural);
 
-        IgrejaAdapter muralAdapter = new IgrejaAdapter();
+        IgrejaAdapter muralAdapter = new IgrejaAdapter(getContext());
 
         RecyclerView.LayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getContext());

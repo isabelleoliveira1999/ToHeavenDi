@@ -1,5 +1,6 @@
 package com.isa.silva.idizimo.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ public class IgrejaAdapter extends RecyclerView.Adapter<IgrejaAdapter.ViewHolder
     private TextView txt_data;
     private TextView txt_mural;
     private ImageView img_mural;
+    private Context mContext;
 public class ViewHolder extends RecyclerView.ViewHolder {
 
     public ViewHolder(View itemView) {
@@ -24,9 +26,9 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     }
 }
 
-    public IgrejaAdapter() {
+    public IgrejaAdapter(Context context) {
+        mContext = context;
     }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -45,7 +47,6 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-    holder.setIsRecyclable(false);
     }
 
     @Override
