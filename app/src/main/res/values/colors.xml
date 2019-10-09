@@ -3,12 +3,9 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#4F8FFF</color>
     <color name="colorAccent">#A9A9A9</color>
-
     <color name="menuOrange">#fdc008</color>
     <color name="menuRed">#ff80cbc4</color>
     <color name="menuBlack">#37474f</color>
     <color name="menuWhite">#f3f3f3</color>
-
     <color name="backgroundGray">#ebecff</color>
-
 </resources>

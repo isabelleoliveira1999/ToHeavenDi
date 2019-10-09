@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.isa.silva.idizimo.Fragment.*;
 import com.isa.silva.idizimo.R;
 import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.push.Push;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -16,7 +17,9 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
-
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 import java.text.ParseException;
 
 
