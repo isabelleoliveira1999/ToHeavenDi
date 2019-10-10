@@ -6,4 +6,13 @@
     <string name="passConfirm">Confirme a senha</string>
     <string name="name">Digite seu nome</string>
 
+
+    <string name="cartao">Digite o numero do cartão</string>
+    <string name="cartaodigito">Digite o digito de segurança</string>
+    <string name="cartaonome">Digite o nome no cartão</string>
+    <string name="cartaocpf">Digite o cpf do titular do cartão</string>
+    <string name="cartaodata">Digite a data de validade</string>
+    <string name="cartaobandeira">Digite a bandeira do cartão</string>
+    <string name="contribuir">Digite o valor que á contribuir</string>
+
 </resources>

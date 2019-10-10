@@ -28,13 +28,13 @@ public class CadastroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
-        btn_login = findViewById(R.id.btn_salvar);
+        btn_login = findViewById(R.id.btn_contribuir);
         btn_voltar = findViewById(R.id.btn_voltar);
         edt_user = findViewById(R.id.edt_user);
         edt_mail = findViewById(R.id.edt_mail);
         edt_tel = findViewById(R.id.edt_tel);
         edt_password = findViewById(R.id.edt_password);
-        edt_password_con = findViewById(R.id.edt_password_con);
+        edt_password_con = findViewById(R.id.edt_password_conf);
 
 
         btn_login.setOnClickListener(new View.OnClickListener() {
