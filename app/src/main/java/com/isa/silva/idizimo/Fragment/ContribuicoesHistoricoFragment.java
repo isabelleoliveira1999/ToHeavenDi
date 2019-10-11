@@ -47,7 +47,7 @@ public class ContribuicoesHistoricoFragment extends Fragment {
 
         btn_contribuir = view.findViewById(R.id.btn_contribuir);
 
-        rv_historico = view.findViewById(R.id.rv_historico);
+        rv_historico = view.findViewById(R.id.rv_contribuicoes);
 
         HistoricoAdapter historicoAdapter = new HistoricoAdapter(getContext());
 
