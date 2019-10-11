@@ -32,6 +32,7 @@ import cieloecommerce.sdk.ecommerce.Payment;
 import cieloecommerce.sdk.ecommerce.Sale;
 import cieloecommerce.sdk.ecommerce.request.CieloError;
 import cieloecommerce.sdk.ecommerce.request.CieloRequestException;
+import cieloecommerce.sdk.ecommerce.request.UpdateSaleResponse;
 
 import static com.isa.silva.idizimo.Utils.Constants.MerchantId;
 import static com.isa.silva.idizimo.Utils.Constants.MerchantKey;
@@ -46,10 +47,32 @@ public class ContribuicoesFragment extends Fragment {
     private Spinner spn_bandeira_cartao;
     private Spinner spn_funcao;
     private EditText edt_doacao;
+    private String paymentId;
+    private int paymentValor;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contribuicoes, container, false);
+        Bundle bundle = getArguments();
+        if(bundle != null) {
+            paymentId = bundle.getString("paymentId");
+            paymentValor = bundle.getInt("valor");
+            Merchant merchant = new Merchant(MerchantId, MerchantKey);
+            try {
+                Sale resul = new CieloEcommerce(merchant, Environment.SANDBOX).querySale(paymentId);
+                if(resul.getPayment().getReturnMessage() == "Não autenticada"){
+                    Util.showMessage(getContext(), "Ops", "Você precisa autenticar para que sua contribuição seja efetuada com sucesso. \n Tente novamente!!");
+                }else {
+                    Util.showMessage(getContext(), "Parabéns", "Sua contribuição no valor de R$" + paymentValor +",00 foi efetuada com sucesso!!");
+                }
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (CieloRequestException e) {
+                e.printStackTrace();
+            }
 
+        }
         btn_contribuir = view.findViewById(R.id.btn_contribuir);
         btn_historico = view.findViewById(R.id.btn_historico);
         edt_cartao_nome = view.findViewById(R.id.cartao_nome);
@@ -73,13 +96,17 @@ public class ContribuicoesFragment extends Fragment {
                                     && !edt_cartao_numero.getText().toString().isEmpty()
                                     && !edt_cartao_codigo.getText().toString().isEmpty()
                                     && !edt_data_cartao.getText().toString().isEmpty()
+                                    && edt_cartao_numero.getText().toString().length()-3 == 16
+                                    && edt_cartao_codigo.getText().toString().length() == 3
+                                    && edt_data_cartao.getText().toString().length()-1 == 6
                             ) {
-                                paymentDebit(edt_cartao_numero.getText().toString(), edt_cartao_codigo.getText().toString(), edt_cartao_nome.getText().toString(), edt_data_cartao.getText().toString(), spn_bandeira_cartao.toString(), Integer.parseInt(edt_doacao.getText().toString()));
+                                paymentDebit(edt_cartao_numero.getText().toString(), edt_cartao_codigo.getText().toString(), edt_cartao_nome.getText().toString(), edt_data_cartao.getText().toString(), spn_bandeira_cartao.getSelectedItem().toString(), Integer.parseInt(edt_doacao.getText().toString()));
                             } else {
+                                Log.e("teste", String.valueOf(edt_cartao_numero.getText().toString().length()));
                                 Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(getContext(), "Contribuição não deve ser menor que 20 Reais", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Contribuição não deve ser menor que 10 Reais", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {
@@ -88,18 +115,18 @@ public class ContribuicoesFragment extends Fragment {
                 }else {
 
                     if (!edt_doacao.getText().toString().isEmpty()) {
-                        if (Integer.parseInt(edt_doacao.getText().toString()) > 20) {
+                        if (Integer.parseInt(edt_doacao.getText().toString()) >= 10) {
                             if (!edt_cartao_nome.getText().toString().isEmpty()
                                     && !edt_cartao_numero.getText().toString().isEmpty()
                                     && !edt_cartao_codigo.getText().toString().isEmpty()
                                     && !edt_data_cartao.getText().toString().isEmpty()
                             ) {
-                                paymentCredit(edt_cartao_numero.getText().toString(), edt_cartao_codigo.getText().toString(), edt_cartao_nome.getText().toString(), edt_data_cartao.getText().toString(), spn_bandeira_cartao.toString(), Integer.parseInt(edt_doacao.getText().toString()));
+                                paymentCredit(edt_cartao_numero.getText().toString(), edt_cartao_codigo.getText().toString(), edt_cartao_nome.getText().toString(), edt_data_cartao.getText().toString(), spn_bandeira_cartao.getSelectedItem().toString(), Integer.parseInt(edt_doacao.getText().toString()));
                             } else {
                                 Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(getContext(), "Contribuição não deve ser menor que 20 Reais", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Contribuição não deve ser menor que 10 Reais", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {
@@ -124,41 +151,34 @@ public class ContribuicoesFragment extends Fragment {
 
         Merchant merchant = new Merchant(MerchantId, MerchantKey);
 
-// Crie uma instância de Sale informando o ID do pagamento
-        Sale sale = new Sale("ID do pagamento");
-
-// Crie uma instância de Customer informando o nome do cliente
-        Customer customer = sale.customer("Comprador Teste");
-
-// Crie uma instância de Payment informando o valor do pagamento
+        Sale sale = new Sale(nCartao+"iDizimo"+dCartao);
+        Customer customer = new Customer(nomeCartao);
         Payment payment = sale.payment(Valor);
 
-// Crie  uma instância de Credit Card utilizando os dados de teste
-// esses dados estão disponíveis no manual de integração
+        payment.setAuthenticate(false);
         payment.creditCard(cCartao, brandCartao).setExpirationDate(dCartao)
                 .setCardNumber(nCartao)
                 .setHolder(nomeCartao);
 
-// Crie o pagamento na Cielo
-        try {
-            // Configure o SDK com seu merchant e o ambiente apropriado para criar a venda
-            sale = new CieloEcommerce(merchant, Environment.SANDBOX).createSale(sale);
 
-            // Com a venda criada na Cielo, já temos o ID do pagamento, TID e demais
-            // dados retornados pela Cielo
+        try {
+            sale = new CieloEcommerce(merchant, Environment.SANDBOX).createSale(sale).setCustomer(customer);
+
             String paymentId = sale.getPayment().getPaymentId();
 
-            // Com o ID do pagamento, podemos fazer sua captura, se ela não tiver sido capturada ainda
-            new CieloEcommerce(merchant, Environment.SANDBOX).captureSale(paymentId, 15700, 0);
+            UpdateSaleResponse resul = new CieloEcommerce(merchant, Environment.SANDBOX).captureSale(paymentId, Valor);
 
-            // E também podemos fazer seu cancelamento, se for o caso
-            //sale = new CieloEcommerce(merchant, Environment.SANDBOX).cancelSale(paymentId, 15700);
+            String resultado = resul.getReturnMessage();
+            if(resultado == "Operation Successful"){
+                Util.showMessage(getContext(), "Parabéns", "Sua contribuição no valor de R$" + Valor +",00 foi efetuada com sucesso!!");
+            }else {
+                Util.showMessage(getContext(),"Aviso", resultado);
+            }
+
+
         } catch (InterruptedException e) {
-            // Como se trata de uma AsyncTask, será preciso tratar ExecutionException e InterruptedException
             e.printStackTrace();
         } catch (CieloRequestException e) {
-            // Em caso de erros de integração, podemos tratar o erro aqui.
-            // os códigos de erro estão todos disponíveis no manual de integração.
             CieloError error = e.getError();
 
             Log.v("Cielo", error.getCode().toString());
@@ -176,41 +196,43 @@ public class ContribuicoesFragment extends Fragment {
 
         Merchant merchant = new Merchant(MerchantId, MerchantKey);
 
-// Crie uma instância de Sale informando o ID do pagamento
-        Sale sale = new Sale("ID do pagamento");
+        Sale sale = new Sale(nCartao+"iDizimo"+dCartao);
+        Customer customer = new Customer(nomeCartao);
 
-// Crie uma instância de Customer informando o nome do cliente
-        Customer customer = sale.customer("Comprador Teste");
-
-// Crie uma instância de Payment informando o valor do pagamento
         Payment payment = sale.payment(Valor);
-
-// Crie  uma instância de Credit Card utilizando os dados de teste
-// esses dados estão disponíveis no manual de integração
+        payment.setAuthenticate(true);
         payment.debitCard(cCartao, brandCartao).setExpirationDate(dCartao)
                 .setCardNumber(nCartao)
                 .setHolder(nomeCartao);
-
-// Crie o pagamento na Cielo
         try {
-            // Configure o SDK com seu merchant e o ambiente apropriado para criar a venda
-            sale = new CieloEcommerce(merchant, Environment.SANDBOX).createSale(sale);
 
-            // Com a venda criada na Cielo, já temos o ID do pagamento, TID e demais
-            // dados retornados pela Cielo
+            sale = new CieloEcommerce(merchant, Environment.SANDBOX).createSale(sale).setCustomer(customer);
+
+
             String paymentId = sale.getPayment().getPaymentId();
 
-            // Com o ID do pagamento, podemos fazer sua captura, se ela não tiver sido capturada ainda
-            new CieloEcommerce(merchant, Environment.SANDBOX).captureSale(paymentId, 15700, 0);
+            String message = sale.getPayment().getReturnMessage();
 
-            // E também podemos fazer seu cancelamento, se for o caso
-            //sale = new CieloEcommerce(merchant, Environment.SANDBOX).cancelSale(paymentId, 15700);
+            if(sale.getPayment().getAuthenticationUrl() != null){
+
+                DebitoFragment debito = new DebitoFragment();
+                Bundle bundle = new Bundle();
+
+                bundle.putString("urlAul", sale.getPayment().getAuthenticationUrl());
+                bundle.putString("paymentId", paymentId);
+                bundle.putInt("valor", Valor);
+                debito.setArguments(bundle);
+                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("contribuir")
+                        .replace(R.id.container, debito )
+                        .commit();
+
+            }else{
+                Util.showMessage(getContext(), "Aviso", message);
+            }
+
         } catch (InterruptedException e) {
-            // Como se trata de uma AsyncTask, será preciso tratar ExecutionException e InterruptedException
             e.printStackTrace();
         } catch (CieloRequestException e) {
-            // Em caso de erros de integração, podemos tratar o erro aqui.
-            // os códigos de erro estão todos disponíveis no manual de integração.
             CieloError error = e.getError();
 
             Log.v("Cielo", error.getCode().toString());
@@ -226,8 +248,10 @@ public class ContribuicoesFragment extends Fragment {
 
     public void Spinner(){
 
-          final String[] bandeiras = new String[] { "Visa",
-                "Master Card", "American Express", "Elo", "Diners Club", "Discover", "JCB", "Aura", "Hipercard", "Hiper" };
+          final String[] bandeiras = new String[] {
+                  "Visa", "Master", "Amex", " Elo","Aura", "JCB", "Diners", "Discover",
+                  "Hipercard ", "Hiper"
+          };
 
 
         ArrayAdapter<String> a =new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, bandeiras);

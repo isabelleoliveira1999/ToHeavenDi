@@ -12,7 +12,7 @@ public class Payment {
     @SerializedName("Capture")
     private boolean capture = false;
     @SerializedName("Authenticate")
-    private boolean authenticate = false;
+    private boolean authenticate;
     @SerializedName("Recurrent")
     private boolean recurrent;
     @SerializedName("RecurrentPayment")
@@ -30,7 +30,7 @@ public class Payment {
     @SerializedName("SoftDescriptor")
     private String softDescriptor = "";
     @SerializedName("ReturnUrl")
-    private String returnUrl;
+    private String returnUrl= "http://www.cielo.com.br";
     @SerializedName("AuthenticationUrl")
     private String authenticationUrl;
     @SerializedName("Provider")
