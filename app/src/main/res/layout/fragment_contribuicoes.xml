@@ -46,13 +46,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="R$"
+                    android:paddingRight="2dp"
                     android:textSize="18dp" />
 
                 <EditText
                     android:id="@+id/valor"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:paddingLeft="4dp"
                     android:hint="@string/contribuir"
                     android:inputType="number" />
             </LinearLayout>
@@ -69,6 +71,8 @@
                 android:id="@+id/cartao_numero"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:background="@null"
+                android:paddingLeft="4dp"
                 android:hint="@string/cartao"
                 android:inputType="number" />
         </androidx.cardview.widget.CardView>
@@ -84,6 +88,8 @@
                 android:id="@+id/cartao_nome"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:background="@null"
+                android:paddingLeft="4dp"
                 android:hint="@string/cartaonome" />
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
@@ -98,6 +104,8 @@
                 android:id="@+id/cartao_codigo"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:background="@null"
+                android:paddingLeft="4dp"
                 android:hint="@string/cartaodigito"
                 android:inputType="number"
                 android:maxLength="3" />
@@ -114,6 +122,8 @@
                 android:id="@+id/data_cartao"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:background="@null"
+                android:paddingLeft="4dp"
                 android:hint="@string/cartaodata"
                 android:inputType="number" />
         </androidx.cardview.widget.CardView>
