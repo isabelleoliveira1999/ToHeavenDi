@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 public class Util {
@@ -19,6 +21,10 @@ public class Util {
     }
 
 
+    public static void esconderTeclado(Context context, View view){
+        ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+                view.getWindowToken(), 0);
+    }
     public static ProgressDialog createAndShowProgressDialog(Context mContext) {
         ProgressDialog pd;
         pd = new ProgressDialog(mContext);

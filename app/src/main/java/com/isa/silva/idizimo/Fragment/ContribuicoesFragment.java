@@ -89,6 +89,7 @@ public class ContribuicoesFragment extends Fragment {
         SpinnerFuncao();
         btn_contribuir.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Util.esconderTeclado(getContext(), btn_contribuir);
                 if(spn_funcao.getSelectedItem() == "Debito") {
                     if (!edt_doacao.getText().toString().isEmpty()) {
                         if (Integer.parseInt(edt_doacao.getText().toString()) >= 10) {
@@ -169,8 +170,12 @@ public class ContribuicoesFragment extends Fragment {
             UpdateSaleResponse resul = new CieloEcommerce(merchant, Environment.SANDBOX).captureSale(paymentId, Valor);
 
             String resultado = resul.getReturnMessage();
-            if(resultado == "Operation Successful"){
+            if(resultado.equals("Operation Successful")){
                 Util.showMessage(getContext(), "Parabéns", "Sua contribuição no valor de R$" + Valor +",00 foi efetuada com sucesso!!");
+                ContribuicoesFragment debito = new ContribuicoesFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, debito )
+                        .commit();
             }else {
                 Util.showMessage(getContext(),"Aviso", resultado);
             }
