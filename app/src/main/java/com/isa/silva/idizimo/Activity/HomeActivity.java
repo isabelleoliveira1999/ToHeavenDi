@@ -70,10 +70,15 @@ public class HomeActivity extends AppCompatActivity {
                 .withTextColor(getResources().getColor(R.color.menuWhite))
                 .withSelectedColor(getResources().getColor(R.color.menuRed))
                 .withSelectedTextColor(getResources().getColor(R.color.menuWhite));
-        PrimaryDrawerItem item7 = new PrimaryDrawerItem().withIdentifier(7).withName("Sair")
+        PrimaryDrawerItem item7 = new PrimaryDrawerItem().withIdentifier(7).withName("Sobre")
                 .withTextColor(getResources().getColor(R.color.menuWhite))
                 .withSelectedColor(getResources().getColor(R.color.menuRed))
                 .withSelectedTextColor(getResources().getColor(R.color.menuWhite));
+        PrimaryDrawerItem item8 = new PrimaryDrawerItem().withIdentifier(8).withName("Sair")
+                .withTextColor(getResources().getColor(R.color.menuWhite))
+                .withSelectedColor(getResources().getColor(R.color.menuRed))
+                .withSelectedTextColor(getResources().getColor(R.color.menuWhite));
+
 
         //Definição do Drawer
         Drawer drawer = new DrawerBuilder()
@@ -87,7 +92,8 @@ public class HomeActivity extends AppCompatActivity {
                         item4.withIcon(R.drawable.ic_church),
                         item5.withIcon(R.drawable.ic_donate),
                         item6.withIcon(R.drawable.ic_resume),
-                        item7.withIcon(R.drawable.ic_logout)
+                        item7.withIcon(R.drawable.ic_info),
+                        item8.withIcon(R.drawable.ic_logout)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -114,7 +120,7 @@ public class HomeActivity extends AppCompatActivity {
                                     .replace(R.id.container, new IgrejasFragment())
                                     .commit();
                         }else if(((Nameable) drawerItem).getName().getText(HomeActivity.this) == "Contribuições"){
-                            textTitulo.setText("Minhas Contribuições");
+                            textTitulo.setText("Contribuições");
                             getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.container, new ContribuicoesFragment())
                                     .commit();
@@ -123,7 +129,13 @@ public class HomeActivity extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.container, new PerfilFragment())
                                     .commit();
-                        }else if(((Nameable) drawerItem).getName().getText(HomeActivity.this) == "Sair"){
+                        }else if(((Nameable) drawerItem).getName().getText(HomeActivity.this) == "Sobre"){
+                            textTitulo.setText("Sobre");
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.container, new SobreFragment())
+                                    .commit();
+                        }
+                        else if(((Nameable) drawerItem).getName().getText(HomeActivity.this) == "Sair"){
                                   finish();
                             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
                             startActivity(intent); //Abre a segunda activity
