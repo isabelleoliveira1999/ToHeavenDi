@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.isa.silva.idizimo.R;
+import com.isa.silva.idizimo.Utils.Util;
 
 
 public class CadastroActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class CadastroActivity extends AppCompatActivity {
         edt_password = findViewById(R.id.edt_password);
         edt_password_con = findViewById(R.id.edt_password_conf);
 
-
+        edt_tel.addTextChangedListener(Util.mask(edt_tel, Util.FORMAT_FONE));
         btn_login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (!edt_user.getText().toString().isEmpty()
