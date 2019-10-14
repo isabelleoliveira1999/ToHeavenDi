@@ -71,7 +71,7 @@ public class CadastroActivity extends AppCompatActivity {
                         && !edt_password.getText().toString().isEmpty()
                         && !edt_password_con.getText().toString().isEmpty()) {
                     if (!check_politicas.isChecked()){
-                        Toast.makeText(getApplicationContext(), "Você deve aceitar as politicas para continuar.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.validacaoPoliticas), Toast.LENGTH_SHORT).show();
                     }else {
                         if (edt_password.getText().toString().equals(edt_password_con.getText().toString())) {
 
@@ -83,23 +83,23 @@ public class CadastroActivity extends AppCompatActivity {
                                             Intent intent = new Intent(CadastroActivity.this, HomeActivity.class);
                                             startActivity(intent);
                                         } else {
-                                            Toast.makeText(getApplicationContext(), "A senha precisa ter 8 digitos!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), getString(R.string.validacaoSenha), Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Email invalido!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getString(R.string.validacaoEmail), Toast.LENGTH_SHORT).show();
                                     }
                                 }else {
-                                    Toast.makeText(getApplicationContext(), "Telefone invalido!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), getString(R.string.validacaoTel), Toast.LENGTH_SHORT).show();
                                 }
                             }else{
-                                Toast.makeText(getApplicationContext(), "CPF invalido!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), getString(R.string.validacaoCpf), Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), "A senha e a confirmação devem ser iguais", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.validacaoSenhaCon), Toast.LENGTH_SHORT).show();
                         }
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.validacaoCampos), Toast.LENGTH_SHORT).show();
                 }
 
             }

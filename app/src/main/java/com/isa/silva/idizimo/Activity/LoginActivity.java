@@ -54,10 +54,10 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(getApplicationContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.validacaoCampos), Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(), "Email Invalido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.validacaoEmail), Toast.LENGTH_SHORT).show();
                 }
 
             }

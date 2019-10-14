@@ -37,10 +37,10 @@ public class EsqueciActivity extends AppCompatActivity {
                         Intent intent = new Intent(EsqueciActivity.this, LoginActivity.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(getApplicationContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.validacaoCampos), Toast.LENGTH_SHORT).show();
                     }
                 }else {
-                    Toast.makeText(getApplicationContext(), "Email invalido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.validacaoEmail), Toast.LENGTH_SHORT).show();
                 }
             }
         });

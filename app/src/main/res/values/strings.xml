@@ -16,4 +16,15 @@
     <string name="cartaobandeira">Digite a bandeira do cartão</string>
     <string name="contribuir">Digite o valor que á contribuir</string>
 
+
+    <string name="validacaoTel">Telefone invalido!</string>
+    <string name="validacaoEmail">Digite o valor que á contribuir</string>
+    <string name="validacaoCpf">CPF invalido!</string>
+    <string name="validacaoSenha">A senha precisa ter 8 digitos!</string>
+    <string name="validacaoSenhaCon">A senha e a confirmação devem ser iguais</string>
+    <string name="validacaoCampos">Preencha todos os campos</string>
+    <string name="validacaoPoliticas">Você deve aceitar as politicas para continuar.</string>
+
+
+
 </resources>
