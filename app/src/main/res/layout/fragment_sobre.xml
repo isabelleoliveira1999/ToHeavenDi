@@ -52,7 +52,7 @@
                         android:layout_margin="20dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="20dp"
-                        android:text="Aplicativo desenvolvido pela empresa I &amp; M Sistemas com a finalidade de facilitar a comunição entre as Igrejas e seus membros."
+                        android:text="Aplicativo desenvolvido pela empresa ' ' com a finalidade de facilitar a comunição entre as Igrejas e seus membros."
                         android:textAlignment="center"
                         android:textColor="@color/menuBlack"
                         android:textSize="18dp" />
@@ -104,6 +104,29 @@
                         android:textAlignment="gravity"
                         android:textColor="@color/menuBlack"
                         android:textSize="16dp" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical"
+                    app:cardBackgroundColor="@color/primary"
+                    app:cardCornerRadius="5dp"
+                    app:cardUseCompatPadding="true">
+
+                    <TextView
+                        android:id="@+id/txt_termos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:paddingLeft="10dp"
+                        android:text="termos"
+                        android:textAlignment="gravity"
+                        android:textColor="@color/menuBlack"
+                        android:textSize="14dp" />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
         </LinearLayout>

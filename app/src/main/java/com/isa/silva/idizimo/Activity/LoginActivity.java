@@ -18,6 +18,7 @@ import com.isa.silva.idizimo.Fragment.IgrejasFragment;
 import com.isa.silva.idizimo.Fragment.OracoesFragment;
 import com.isa.silva.idizimo.Fragment.PerfilFragment;
 import com.isa.silva.idizimo.R;
+import com.isa.silva.idizimo.Utils.Util;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -47,12 +48,16 @@ public class LoginActivity extends AppCompatActivity {
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (!edt_login.getText().toString().isEmpty() && !edt_senha.getText().toString().isEmpty()) {
-                    finish();
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                if (Util.isValidEmailAddressRegex(edt_login.getText().toString())) {
+                    if (!edt_login.getText().toString().isEmpty() && !edt_senha.getText().toString().isEmpty()) {
+                        finish();
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Email Invalido", Toast.LENGTH_SHORT).show();
                 }
 
             }
