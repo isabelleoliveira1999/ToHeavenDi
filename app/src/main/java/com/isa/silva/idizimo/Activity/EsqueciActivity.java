@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.isa.silva.idizimo.R;
 import com.isa.silva.idizimo.Utils.Util;
 
@@ -18,6 +20,7 @@ public class EsqueciActivity extends AppCompatActivity {
     private Button btn_login;
     private Button btn_voltar;
     private EditText edt_login;
+    private FirebaseAuth firebase = new FirebaseAuth(FirebaseApp.getInstance());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,8 @@ public class EsqueciActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (Util.isValidEmailAddressRegex(edt_login.getText().toString())) {
                     if (!edt_login.getText().toString().isEmpty()) {
+
+                        firebase.sendPasswordResetEmail(edt_login.getText().toString());
                         finish();
                         Intent intent = new Intent(EsqueciActivity.this, LoginActivity.class);
                         startActivity(intent);

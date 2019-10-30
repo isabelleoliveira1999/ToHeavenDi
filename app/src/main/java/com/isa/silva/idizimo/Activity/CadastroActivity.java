@@ -15,9 +15,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.isa.silva.idizimo.Fragment.DialogFragment;
 import com.isa.silva.idizimo.R;
 import com.isa.silva.idizimo.Utils.Util;
@@ -35,6 +45,7 @@ public class CadastroActivity extends AppCompatActivity {
     private EditText edt_password_con;
     private CheckBox check_politicas;
     private TextView txt_politicas;
+    private FirebaseAuth firebase = new FirebaseAuth(FirebaseApp.getInstance());
 
 
     @Override
@@ -79,9 +90,38 @@ public class CadastroActivity extends AppCompatActivity {
                                 if (Util.validarTelefone(edt_tel.getText().toString())) {
                                     if (Util.isValidEmailAddressRegex(edt_mail.getText().toString())) {
                                         if (Util.isValidSenha(edt_password.getText().toString())) {
-                                            finish();
-                                            Intent intent = new Intent(CadastroActivity.this, HomeActivity.class);
-                                            startActivity(intent);
+
+                                            Task<AuthResult> fire =  firebase.createUserWithEmailAndPassword(edt_mail.getText().toString(), edt_password.getText().toString());
+
+                                            fire.addOnSuccessListener(CadastroActivity.this, new OnSuccessListener<AuthResult>(){
+
+                                                @Override
+                                                public void onSuccess(AuthResult authResult) {
+
+                                                    FirebaseUser user = authResult.getUser();
+
+                                                    UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
+                                                            .setDisplayName(edt_user.getText().toString())
+                                                            .build();
+
+                                                    user.updateProfile(profileUpdate)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(Task<Void> task) {
+                                                                    if (task.isSuccessful()) { //success on updating user profile
+                                                                        finish();
+                                                                        Intent intent = new Intent(CadastroActivity.this, HomeActivity.class);
+                                                                        startActivity(intent);
+                                                                    } else { //failed on updating user profile
+                                                                        Toast.makeText(CadastroActivity.this, "Tente novamente",
+                                                                                Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                }
+                                                            });
+                                                }
+                                            });
+
+
                                         } else {
                                             Toast.makeText(getApplicationContext(), getString(R.string.validacaoSenha), Toast.LENGTH_SHORT).show();
                                         }
@@ -136,6 +176,5 @@ public class CadastroActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
     }
-
 
 }

@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.isa.silva.idizimo.Fragment.*;
 import com.isa.silva.idizimo.R;
 import com.mikepenz.materialdrawer.Drawer;
@@ -20,6 +23,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView textTitulo;
+    private FirebaseAuth firebase = new FirebaseAuth(FirebaseApp.getInstance());
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +140,7 @@ public class HomeActivity extends AppCompatActivity {
                                     .commit();
                         }
                         else if(((Nameable) drawerItem).getName().getText(HomeActivity.this) == "Sair"){
+                            firebase.signOut();
                                   finish();
                             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
                             startActivity(intent); //Abre a segunda activity
