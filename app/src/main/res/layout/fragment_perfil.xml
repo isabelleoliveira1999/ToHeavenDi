@@ -38,13 +38,16 @@
                         android:layout_height="25dp"
                         android:paddingTop="10dp"
                         android:src="@drawable/ic_user"/>
-                    <EditText android:id="@+id/edt_user"
-                        android:hint="@string/name"
+
+                    <EditText
+                        android:id="@+id/edt_user"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@null"
+                        android:hint="@string/name"
+                        android:maxLines="1"
                         android:paddingLeft="5dp"
-                        />
+                        android:textSize="12dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -64,12 +67,16 @@
                         android:layout_height="25dp"
                         android:paddingTop="10dp"
                         android:src="@drawable/ic_mail"/>
-                    <EditText android:id="@+id/edt_mail"
-                        android:hint="@string/mail"
+
+                    <EditText
+                        android:id="@+id/edt_mail"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@null"
-                        android:paddingLeft="5dp"/>
+                        android:hint="@string/mail"
+                        android:maxLines="1"
+                        android:paddingLeft="5dp"
+                        android:textSize="12dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
@@ -89,12 +96,16 @@
                         android:layout_height="25dp"
                         android:paddingTop="10dp"
                         android:src="@drawable/ic_tell"/>
-                    <EditText android:id="@+id/edt_tel"
-                        android:hint="@string/telephone"
+
+                    <EditText
+                        android:id="@+id/edt_tel"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@null"
-                        android:paddingLeft="5dp"/>
+                        android:hint="@string/telephone"
+                        android:maxLines="1"
+                        android:paddingLeft="5dp"
+                        android:textSize="12dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
