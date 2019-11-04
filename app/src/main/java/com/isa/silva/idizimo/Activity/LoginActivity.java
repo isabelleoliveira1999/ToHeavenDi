@@ -27,6 +27,10 @@ import com.isa.silva.idizimo.Fragment.OracoesFragment;
 import com.isa.silva.idizimo.Fragment.PerfilFragment;
 import com.isa.silva.idizimo.R;
 import com.isa.silva.idizimo.Utils.Util;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
+import com.microsoft.appcenter.push.Push;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -34,6 +38,8 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
 import java.lang.reflect.Array;
+
+import static com.isa.silva.idizimo.Utils.Constants.APP_KEY;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -74,6 +80,10 @@ public class LoginActivity extends AppCompatActivity {
 
                                 if (it != null) {
                                     // User is signed in.
+                                    Push.enableFirebaseAnalytics(getApplication());
+                                    AppCenter.start(getApplication(), APP_KEY,
+                                            Analytics.class, Crashes.class, Push.class);
+
                                     FirebaseUser user = it.getUser();
                                             Toast.makeText(LoginActivity.this, "Bem-vindo " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
 

@@ -18,7 +18,7 @@
 
 
     <string name="validacaoTel">Telefone invalido!</string>
-    <string name="validacaoEmail">Digite o valor que á contribuir</string>
+    <string name="validacaoEmail">Email invalido</string>
     <string name="validacaoCpf">CPF invalido!</string>
     <string name="validacaoSenha">A senha precisa ter 8 digitos!</string>
     <string name="validacaoSenhaCon">A senha e a confirmação devem ser iguais</string>

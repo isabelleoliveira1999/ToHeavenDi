@@ -8,6 +8,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -28,7 +30,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.isa.silva.idizimo.Fragment.DialogFragment;
+import com.isa.silva.idizimo.Model.User;
 import com.isa.silva.idizimo.R;
 import com.isa.silva.idizimo.Utils.Util;
 
@@ -46,7 +54,7 @@ public class CadastroActivity extends AppCompatActivity {
     private CheckBox check_politicas;
     private TextView txt_politicas;
     private FirebaseAuth firebase = new FirebaseAuth(FirebaseApp.getInstance());
-
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +99,7 @@ public class CadastroActivity extends AppCompatActivity {
                                     if (Util.isValidEmailAddressRegex(edt_mail.getText().toString())) {
                                         if (Util.isValidSenha(edt_password.getText().toString())) {
 
+
                                             Task<AuthResult> fire =  firebase.createUserWithEmailAndPassword(edt_mail.getText().toString(), edt_password.getText().toString());
 
                                             fire.addOnSuccessListener(CadastroActivity.this, new OnSuccessListener<AuthResult>(){
@@ -98,8 +107,9 @@ public class CadastroActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onSuccess(AuthResult authResult) {
 
-                                                    FirebaseUser user = authResult.getUser();
 
+                                                    FirebaseUser user = authResult.getUser();
+                                                    writeNewUser(user.getUid(), edt_user.getText().toString(), edt_cpf.getText().toString(), edt_mail.getText().toString(), edt_tel.getText().toString());
                                                     UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                                                             .setDisplayName(edt_user.getText().toString())
                                                             .build();
@@ -120,8 +130,6 @@ public class CadastroActivity extends AppCompatActivity {
                                                             });
                                                 }
                                             });
-
-
                                         } else {
                                             Toast.makeText(getApplicationContext(), getString(R.string.validacaoSenha), Toast.LENGTH_SHORT).show();
                                         }
@@ -177,4 +185,45 @@ public class CadastroActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    private void writeNewUser(String userId, String name, String cpf,  String email, String telefone) {
+        User user = new User(name, email, cpf, telefone);
+
+        // Write a message to the database
+         mDatabase = FirebaseDatabase.getInstance().getReference("User");
+
+        mDatabase.child(userId).setValue(user).addOnSuccessListener(
+                CadastroActivity.this, new OnSuccessListener(){
+                    @Override
+                    public void onSuccess(Object o) {
+                        Toast.makeText(getApplicationContext(), "Salvos com sucesso", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ).addOnFailureListener(
+                CadastroActivity.this, new OnFailureListener() {
+
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        );
+
+      /*  myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                User value = dataSnapshot.getValue(User.class);
+                Log.d("", "Value is: " + value.getName());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("", "Failed to read value.", error.toException());
+            }
+        });*/
+    }
 }

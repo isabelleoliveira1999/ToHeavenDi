@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
 
 public class Util {
 
+    public  static String BASE_URL = "https://idizimo-46038.firebaseio.com/";
+    public  static String BASE_URL_IMAGENS ="https://firebasestorage.googleapis.com/v0/b/idizimo-46038.appspot.com/o/imagens_home%2Fimg_3.jpeg?alt=media&token=a28057fe-3799-49e4-a17d-ec819bfd37ac";
     public static void showMessage(Context context, String title, String message) {
         AlertDialog.Builder dlgAlert = new AlertDialog.Builder(context);
         dlgAlert.setMessage(message);
@@ -104,7 +106,7 @@ public class Util {
     public static boolean validarTelefone(String tel) {
 
 
-        if((tel == null) || (tel.length()>13))
+        if((tel == null) || (tel.length()>14))
             return false;
 
         else

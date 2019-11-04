@@ -25,11 +25,6 @@ public class SplashActivity  extends Activity {
         setContentView(R.layout.activity_splash);
 
 
-        //inicio mudar para o login
-        Push.enableFirebaseAnalytics(getApplication());
-        AppCenter.start(getApplication(), APP_KEY,
-                Analytics.class, Crashes.class, Push.class);
-        //fim mudar para o login
         new Handler().postDelayed(new Runnable() {
             /*
              * Exibindo splash com um timer.
