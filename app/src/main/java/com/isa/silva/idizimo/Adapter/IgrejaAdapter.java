@@ -9,7 +9,13 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.isa.silva.idizimo.Model.Igrejas;
 import com.isa.silva.idizimo.R;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IgrejaAdapter extends RecyclerView.Adapter<IgrejaAdapter.ViewHolder> {
 
@@ -18,6 +24,7 @@ public class IgrejaAdapter extends RecyclerView.Adapter<IgrejaAdapter.ViewHolder
     private TextView txt_mural;
     private ImageView img_mural;
     private Context mContext;
+    private List<Igrejas> igrejaPost = new ArrayList<Igrejas>();
 public class ViewHolder extends RecyclerView.ViewHolder {
 
     public ViewHolder(View itemView) {
@@ -26,8 +33,9 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     }
 }
 
-    public IgrejaAdapter(Context context) {
+    public IgrejaAdapter(Context context, List<Igrejas> igrejaPost) {
         mContext = context;
+        this.igrejaPost = igrejaPost;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -41,16 +49,29 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         img_mural = itemView.findViewById(R.id.img_mural);
 
 
+
+
+
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+      //  FirebaseStorage storage = FirebaseStorage.getInstance();
 
+        Igrejas post = igrejaPost.get(position);
+
+        txt_nome.setText(post.getAutor());
+        txt_data.setText(post.getData());
+        txt_mural.setText(post.getMensagem());
+
+
+
+      //  Picasso.with(mContext).load(igrejaPost.get(position).getUrl());
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return igrejaPost.size();
     }
 }
