@@ -1,15 +1,22 @@
 package com.isa.silva.idizimo.Fragment;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,23 +42,44 @@ public class IgrejasFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rv_mural);
 
 
-
-
-
-
-
-
-
-
         DatabaseReference dbPosts = FirebaseDatabase.getInstance().getReference("IgrejaPosts");
-
+        igrejaPost.clear();
         dbPosts.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        Igrejas c = postSnapshot.getValue(Igrejas.class);
+                        final Igrejas c = postSnapshot.getValue(Igrejas.class);
                         Log.i("URL FOTO", c.getUrl());
-                        igrejaPost.add(c);
+                        if (!c.getUrl().isEmpty()) {
+                            StorageReference storage = FirebaseStorage.getInstance().getReferenceFromUrl(c.getUrl());
+                            final Task<Uri> url = storage.getDownloadUrl();
+                            url.addOnSuccessListener(
+                                    new OnSuccessListener() {
+
+                                        @Override
+                                        public void onSuccess(Object o) {
+                                            c.setUrl(url.getResult().toString());
+                                            igrejaPost.add(c);
+                                        }
+                                    }
+                            ).addOnFailureListener(
+                                    new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            igrejaPost.add(c);
+                                        }
+                                    }
+                            ).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Uri> task) {
+
+                                }
+
+                            });
+
+                        }else{
+                            igrejaPost.add(c);
+                        }
                     }
                     IgrejaAdapter muralAdapter = new IgrejaAdapter(getContext(), igrejaPost);
                     RecyclerView.LayoutManager layoutManager;

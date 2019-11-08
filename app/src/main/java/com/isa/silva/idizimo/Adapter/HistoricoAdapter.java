@@ -8,7 +8,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.isa.silva.idizimo.Model.Contribuicoes;
 import com.isa.silva.idizimo.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HistoricoAdapter extends RecyclerView.Adapter<HistoricoAdapter.ViewHolder> {
 
@@ -16,6 +20,8 @@ public class HistoricoAdapter extends RecyclerView.Adapter<HistoricoAdapter.View
     private TextView txt_data;
     private TextView txt_card;
     private Context mContext;
+    private List<Contribuicoes> historico = new ArrayList<Contribuicoes>();
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ViewHolder(View itemView) {
@@ -24,8 +30,9 @@ public class HistoricoAdapter extends RecyclerView.Adapter<HistoricoAdapter.View
         }
     }
 
-    public HistoricoAdapter(Context context) {
+    public HistoricoAdapter(Context context, List<Contribuicoes> historico) {
         mContext = context;
+        this.historico = historico;
     }
 
     @Override
@@ -48,6 +55,6 @@ public class HistoricoAdapter extends RecyclerView.Adapter<HistoricoAdapter.View
 
     @Override
     public int getItemCount() {
-        return 5;
+        return historico.size();
     }
 }

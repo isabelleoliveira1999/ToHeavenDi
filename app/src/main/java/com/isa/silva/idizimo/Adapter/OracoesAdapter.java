@@ -6,13 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.isa.silva.idizimo.Model.Igrejas;
+import com.isa.silva.idizimo.Model.Oracoes;
 import com.isa.silva.idizimo.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OracoesAdapter extends RecyclerView.Adapter<OracoesAdapter.ViewHolder> {
 
     private TextView txt_oracao;
     private TextView txt_data;
     private Context mContext;
+    private List<Oracoes> oracoesPost = new ArrayList<Oracoes>();
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ViewHolder(View itemView) {
@@ -21,7 +29,7 @@ public class OracoesAdapter extends RecyclerView.Adapter<OracoesAdapter.ViewHold
         }
     }
 
-    public OracoesAdapter(Context context) {
+    public OracoesAdapter(Context context, List<Oracoes> igrejaPost) {
         mContext = context;
     }
 
@@ -44,6 +52,6 @@ public class OracoesAdapter extends RecyclerView.Adapter<OracoesAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return 5;
+        return oracoesPost.size();
     }
 }

@@ -19,6 +19,6 @@
         android:layout_below="@+id/imgLogo"
         android:textStyle="bold"
         android:textSize="18dp"
-        android:text="iDizimo"/>
+        android:text="ToHeaven"/>
 
 </RelativeLayout>

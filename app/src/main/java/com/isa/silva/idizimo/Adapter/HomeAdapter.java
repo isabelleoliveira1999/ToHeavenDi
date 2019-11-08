@@ -16,7 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.isa.silva.idizimo.Model.Contribuicoes;
+import com.isa.silva.idizimo.Model.Home;
 import com.isa.silva.idizimo.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
@@ -31,6 +36,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     private LinearLayout lin_curtir;
     private LinearLayout lin_comentar;
     private Context mContext;
+    private List<Home> home = new ArrayList<Home>();
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -51,8 +57,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         }
     }
 
-    public HomeAdapter(Context context) {
+    public HomeAdapter(Context context, List<Home> home) {
         mContext = context;
+        this.home = home;
     }
 
     @Override
