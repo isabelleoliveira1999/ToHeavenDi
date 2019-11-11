@@ -67,37 +67,50 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (Util.isValidEmailAddressRegex(edt_login.getText().toString())) {
                     if (!edt_login.getText().toString().isEmpty() && !edt_senha.getText().toString().isEmpty()) {
-                        Task<AuthResult> fire = firebase.signInWithEmailAndPassword(
-                                edt_login.getText().toString(),
-                                edt_senha.getText().toString()
-                        );
 
+                            Task<AuthResult> fire = firebase.signInWithEmailAndPassword(
+                                    edt_login.getText().toString(),
+                                    edt_senha.getText().toString()
+                            );
+                            fire.addOnSuccessListener(LoginActivity.this, new OnSuccessListener<AuthResult>() {
 
-                        fire.addOnSuccessListener(LoginActivity.this, new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult it) {
 
-                            @Override
-                            public void onSuccess(AuthResult it) {
+                                    if (it != null) {
+                                        // User is signed in.
+                                        if(edt_login.getText().toString().toLowerCase().contains("@toheaven.com")){
+                                            Push.enableFirebaseAnalytics(getApplication());
+                                            AppCenter.start(getApplication(), APP_KEY,
+                                                    Analytics.class, Crashes.class, Push.class);
 
-                                if (it != null) {
-                                    // User is signed in.
-                                    Push.enableFirebaseAnalytics(getApplication());
-                                    AppCenter.start(getApplication(), APP_KEY,
-                                            Analytics.class, Crashes.class, Push.class);
-
-                                    FirebaseUser user = it.getUser();
+                                            FirebaseUser user = it.getUser();
                                             Toast.makeText(LoginActivity.this, "Bem-vindo " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
 
-                                    finish();
-                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                    startActivity(intent);
+                                            finish();
+                                            Intent intent = new Intent(LoginActivity.this, HomeAdmActivity.class);
+                                            startActivity(intent);
 
-                                } else {
+                                        }else {
+                                            Push.enableFirebaseAnalytics(getApplication());
+                                            AppCenter.start(getApplication(), APP_KEY,
+                                                    Analytics.class, Crashes.class, Push.class);
 
-                                    Toast.makeText(LoginActivity.this, "Tente novamente!", Toast.LENGTH_SHORT).show();
+                                            FirebaseUser user = it.getUser();
+                                            Toast.makeText(LoginActivity.this, "Bem-vindo " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+
+                                            finish();
+                                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                            startActivity(intent);
+                                        }
+
+                                    } else {
+
+                                        Toast.makeText(LoginActivity.this, "Tente novamente!", Toast.LENGTH_SHORT).show();
+                                    }
+
                                 }
-
-                            }
-                        });
+                            });
                             fire.addOnFailureListener(LoginActivity.this, new OnFailureListener() {
 
 
@@ -110,7 +123,6 @@ public class LoginActivity extends AppCompatActivity {
 
                                 }
                             });
-
 
 
                     } else {

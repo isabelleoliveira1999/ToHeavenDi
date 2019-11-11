@@ -97,7 +97,7 @@
                         android:layout_height="25dp"
                         android:paddingTop="10dp"
                         android:src="@drawable/ic_mail"/>
-                    <AutoCompleteTextView android:id="@+id/edt_mail"
+                    <TextView android:id="@+id/edt_mail"
                         android:hint="@string/mail"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
