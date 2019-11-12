@@ -38,9 +38,15 @@ public class SplashActivity  extends Activity {
                     startActivity(i);
                     finish();
                 }else{
-                    Intent i = new Intent(SplashActivity.this, HomeActivity.class);
-                    startActivity(i);
-                    finish();
+                    if (firebase.getCurrentUser().getEmail().toLowerCase().contains("@toheaven.com")){
+                        Intent i = new Intent(SplashActivity.this, HomeAdmActivity.class);
+                        startActivity(i);
+                        finish();
+                    }else {
+                        Intent i = new Intent(SplashActivity.this, HomeActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
                 }
 
 

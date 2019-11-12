@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     Analytics.class, Crashes.class, Push.class);
 
                                             FirebaseUser user = it.getUser();
-                                            Toast.makeText(LoginActivity.this, "Bem-vindo " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(LoginActivity.this, "Bem-vindo Administrador", Toast.LENGTH_SHORT).show();
 
                                             finish();
                                             Intent intent = new Intent(LoginActivity.this, HomeAdmActivity.class);

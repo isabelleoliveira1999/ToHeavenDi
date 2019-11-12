@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.isa.silva.idizimo.Model.Home;
 import com.isa.silva.idizimo.Model.Igrejas;
 import com.isa.silva.idizimo.Model.Oracoes;
 import com.isa.silva.idizimo.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class OracoesAdapter extends RecyclerView.Adapter<OracoesAdapter.ViewHold
 
     public OracoesAdapter(Context context, List<Oracoes> igrejaPost) {
         mContext = context;
+        oracoesPost= igrejaPost;
     }
 
     @Override
@@ -48,6 +51,10 @@ public class OracoesAdapter extends RecyclerView.Adapter<OracoesAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         holder.setIsRecyclable(false);
+
+        final Oracoes post = oracoesPost.get(position);
+        txt_oracao.setText(post.getMensagem());
+        txt_data.setText("Orações do Dia " +post.getData());
     }
 
     @Override

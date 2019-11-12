@@ -77,7 +77,7 @@ public class HomeAdmActivity extends AppCompatActivity {
                 .withTextColor(getResources().getColor(R.color.menuWhite))
                 .withSelectedColor(getResources().getColor(R.color.menuRed))
                 .withSelectedTextColor(getResources().getColor(R.color.menuWhite));
-        PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(6).withName("Meu Perfil")
+        PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(6).withName("Administrador")
                 .withTextColor(getResources().getColor(R.color.menuWhite))
                 .withSelectedColor(getResources().getColor(R.color.menuRed))
                 .withSelectedTextColor(getResources().getColor(R.color.menuWhite));
@@ -135,7 +135,7 @@ public class HomeAdmActivity extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.container, new ContribuicoesFragment())
                                     .commit();
-                        }else if(((Nameable) drawerItem).getName().getText(HomeAdmActivity.this) == "Add"){
+                        }else if(((Nameable) drawerItem).getName().getText(HomeAdmActivity.this) == "Administrador"){
                             textTitulo.setText("Novos Posts");
                             getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.container, new AdmFragment())

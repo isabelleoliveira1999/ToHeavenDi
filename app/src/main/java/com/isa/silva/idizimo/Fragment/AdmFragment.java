@@ -1,9 +1,13 @@
 package com.isa.silva.idizimo.Fragment;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -53,6 +58,7 @@ public class AdmFragment extends Fragment {
     private FirebaseAuth firebase = new FirebaseAuth(FirebaseApp.getInstance());
     private DatabaseReference mDatabase;
     String url = "";
+    private int PERMISSAO_REQUEST = 100;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,9 +78,6 @@ public class AdmFragment extends Fragment {
         spn_tipo.setOnItemSelectedListener(new selectedListener());
 
 
-        final String post = edt_post.getText().toString();
-        final String autor = edt_autor.getText().toString();
-        final String titulo = edt_titulo.getText().toString();
 
 
         SimpleDateFormat curFormater = new SimpleDateFormat("dd/MM/yyyy");
@@ -84,23 +87,42 @@ public class AdmFragment extends Fragment {
 
         btn_imagem.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                pickIntent.setType("image/*");
-                startActivityForResult(Intent.createChooser(pickIntent, "Select Picture"), PICK_IMAGE);
+
+                //Abre Dialog perguntando se o app da ou não permissão de acesso as pastas
+                if (ContextCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                            Manifest.permission.READ_EXTERNAL_STORAGE)){
+
+                    }else{
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSAO_REQUEST);
+                    }
+                }else{
+                    Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    pickIntent.setType("image/*");
+                    startActivityForResult(Intent.createChooser(pickIntent, "Select Picture"), PICK_IMAGE);
+                }
             }
         });
         btn_enviar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                final String post = edt_post.getText().toString();
+                final String autor = edt_autor.getText().toString();
+                final String titulo = edt_titulo.getText().toString();
+
                 if(!selected.isEmpty()){
                     if(!url.isEmpty()){
-                        imageUploa(url);
-                    }
-                    if(selected == "Home"){
-                        writeNewOracoes(firebase.getUid(), post, autor, titulo, data, url);
-                    }else if(selected == "Orações"){
-                        writeNewHome(firebase.getUid(), post, autor, titulo, data, firebase.getCurrentUser().getEmail(), url );
-                    }else if(selected == "Igreja"){
-                        writeNewIgrejas(firebase.getUid(),post, autor, url, data );
+                        imageUploa(url, selected, autor, post, titulo, data);
+                    }else {
+                        if (selected == "Orações") {
+                            writeNewOracoes(firebase.getUid(), post, autor, titulo, data, url);
+                        } else if (selected == "Home") {
+                            writeNewHome(firebase.getUid(), post, autor, titulo, data, firebase.getCurrentUser().getEmail(), url);
+                        } else if (selected == "Igreja") {
+                            writeNewIgrejas(firebase.getUid(), post, autor, url, data);
+                        }
                     }
                 }
 
@@ -126,9 +148,9 @@ public class AdmFragment extends Fragment {
         Oracoes oracoes = new Oracoes(userId, post, autor, titulo, data, url);
 
         // Write a message to the database
-        mDatabase = FirebaseDatabase.getInstance().getReference("Oracoes");
+        mDatabase = FirebaseDatabase.getInstance().getReference("OracoesPosts");
 
-        mDatabase.child(titulo+data).setValue(oracoes).addOnSuccessListener(
+        mDatabase.child(titulo+userId).setValue(oracoes).addOnSuccessListener(
                 getActivity(), new OnSuccessListener(){
                     @Override
                     public void onSuccess(Object o) {
@@ -154,7 +176,7 @@ public class AdmFragment extends Fragment {
         // Write a message to the database
         mDatabase = FirebaseDatabase.getInstance().getReference("Home");
 
-        mDatabase.child(titulo+data).setValue(home).addOnSuccessListener(
+        mDatabase.child(titulo+userId).setValue(home).addOnSuccessListener(
                 getActivity(), new OnSuccessListener(){
                     @Override
                     public void onSuccess(Object o) {
@@ -178,9 +200,9 @@ public class AdmFragment extends Fragment {
         Igrejas igrejas = new Igrejas(userId, post, autor, data, url);
 
         // Write a message to the database
-        mDatabase = FirebaseDatabase.getInstance().getReference("Oracoes");
+        mDatabase = FirebaseDatabase.getInstance().getReference("IgrejaPosts");
 
-        mDatabase.child(autor+data).setValue(igrejas).addOnSuccessListener(
+        mDatabase.child(autor+userId).setValue(igrejas).addOnSuccessListener(
                 getActivity(), new OnSuccessListener(){
                     @Override
                     public void onSuccess(Object o) {
@@ -205,11 +227,11 @@ public class AdmFragment extends Fragment {
     {
         if (requestCode == PICK_IMAGE) {
 
-            url = data.getData().toString();
+            url = getRealPathFromURI(getContext(), data.getData());
         }
     }
 
-    private void imageUploa(String data){
+    private void imageUploa(final String data, final String selected, final String autor, final String post, final String titulo, final String dataz){
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference("/imagens_home");
 
@@ -225,8 +247,38 @@ public class AdmFragment extends Fragment {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.e("Sucesso", "Sucesso");
+                Log.e("Sucesso", taskSnapshot.getMetadata().getPath());
+
+                if(selected == "Orações"){
+                    writeNewOracoes(firebase.getUid(), post, autor, titulo, dataz, url);
+                }else if(selected == "Home"){
+                    writeNewHome(firebase.getUid(), post, autor, titulo, dataz, firebase.getCurrentUser().getEmail(), url );
+                }else if(selected == "Igreja"){
+                    writeNewIgrejas(firebase.getUid(),post, autor, url, dataz );
+                }
             }
         });
     }
+    private String getRealPathFromURI(Context context , Uri uri) {
+        String result;
+        Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+
+        if (uri.toString().indexOf("file:///") > -1) {
+            return uri.getPath();
+        }
+
+        if (cursor == null) {
+            result = uri.getPath();
+        } else {
+            cursor.moveToFirst();
+
+            int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+
+            result = cursor.getString(index);
+            cursor.close();
+        }
+
+        return result;
+    }
+
 }

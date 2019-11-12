@@ -9,7 +9,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.isa.silva.idizimo.Model.Contribuicoes;
+import com.isa.silva.idizimo.Model.Home;
 import com.isa.silva.idizimo.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +53,13 @@ public class HistoricoAdapter extends RecyclerView.Adapter<HistoricoAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         holder.setIsRecyclable(false);
+
+
+        final Contribuicoes post = historico.get(position);
+        txt_valor.setText(post.getValor());
+        txt_data.setText(post.getData());
+        txt_card.setText(post.getFinalcartao());
+
     }
 
     @Override

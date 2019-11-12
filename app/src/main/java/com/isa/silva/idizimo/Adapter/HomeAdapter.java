@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.isa.silva.idizimo.Model.Contribuicoes;
 import com.isa.silva.idizimo.Model.Home;
+import com.isa.silva.idizimo.Model.Igrejas;
 import com.isa.silva.idizimo.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +78,18 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         holder.setIsRecyclable(false);
+
+
+        final Home post = home.get(position);
+        txt_nome.setText(post.getAutor());
+        txt_data.setText(post.getData());
+        txt_mural.setText(post.getPost());
+        if(!post.getUrl().isEmpty()) {
+            Picasso.with(mContext).load(post.getUrl())
+                    .into(img_mural);
+        }else {
+            img_mural.setVisibility(View.GONE);
+        }
 
         txt_curtir.setTag(position);
         txt_curtir.setOnClickListener(new View.OnClickListener() {
@@ -190,6 +204,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 5;
+        return home.size();
     }
 }
