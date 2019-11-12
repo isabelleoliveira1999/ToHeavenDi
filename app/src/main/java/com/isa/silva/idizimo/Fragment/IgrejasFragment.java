@@ -51,32 +51,19 @@ public class IgrejasFragment extends Fragment {
                         final Igrejas c = postSnapshot.getValue(Igrejas.class);
                         Log.i("URL FOTO", c.getUrl());
                         if (!c.getUrl().isEmpty()) {
-                            StorageReference storage = FirebaseStorage.getInstance().getReferenceFromUrl(c.getUrl());
-                            final Task<Uri> url = storage.getDownloadUrl();
-                            url.addOnSuccessListener(
-                                    new OnSuccessListener() {
-
-                                        @Override
-                                        public void onSuccess(Object o) {
-                                            c.setUrl(url.getResult().toString());
-                                            igrejaPost.add(c);
-                                        }
-                                    }
-                            ).addOnFailureListener(
-                                    new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            igrejaPost.add(c);
-                                        }
-                                    }
-                            ).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            StorageReference storage = FirebaseStorage.getInstance().getReference();
+                            storage.child(c.getUrl()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
-                                public void onComplete(@NonNull Task<Uri> task) {
-
+                                public void onSuccess(Uri uri) {
+                                    c.setUrl(uri.toString());
+                                    igrejaPost.add(c);
                                 }
-
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    igrejaPost.add(c);
+                                }
                             });
-
                         }else{
                             igrejaPost.add(c);
                         }

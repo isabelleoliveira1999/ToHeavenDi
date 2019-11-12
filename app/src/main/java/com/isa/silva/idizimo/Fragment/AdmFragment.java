@@ -250,11 +250,11 @@ public class AdmFragment extends Fragment {
                 Log.e("Sucesso", taskSnapshot.getMetadata().getPath());
 
                 if(selected == "Orações"){
-                    writeNewOracoes(firebase.getUid(), post, autor, titulo, dataz, url);
+                    writeNewOracoes(firebase.getUid(), post, autor, titulo, dataz, taskSnapshot.getMetadata().getPath());
                 }else if(selected == "Home"){
-                    writeNewHome(firebase.getUid(), post, autor, titulo, dataz, firebase.getCurrentUser().getEmail(), url );
+                    writeNewHome(firebase.getUid(), post, autor, titulo, dataz, firebase.getCurrentUser().getEmail(), taskSnapshot.getMetadata().getPath() );
                 }else if(selected == "Igreja"){
-                    writeNewIgrejas(firebase.getUid(),post, autor, url, dataz );
+                    writeNewIgrejas(firebase.getUid(),post, autor, taskSnapshot.getMetadata().getPath(), dataz );
                 }
             }
         });

@@ -1,20 +1,27 @@
 package com.isa.silva.idizimo.Fragment;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.isa.silva.idizimo.Adapter.HistoricoAdapter;
 import com.isa.silva.idizimo.Adapter.HomeAdapter;
 import com.isa.silva.idizimo.Adapter.OracoesAdapter;
@@ -42,19 +49,30 @@ public class HomeFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     final Home c = postSnapshot.getValue(Home.class);
-                    home.add(c);
-
+                    if (!c.getUrl().isEmpty()) {
+                        StorageReference storage = FirebaseStorage.getInstance().getReference();
+                        storage.child(c.getUrl()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                c.setUrl(uri.toString());
+                                home.add(c);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                home.add(c);
+                            }
+                        });
+                    }else{
+                        home.add(c);
+                    }
                 }
-
-
                 HomeAdapter muralAdapter = new HomeAdapter(getContext(), home);
-
                 RecyclerView.LayoutManager layoutManager;
                 layoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setAdapter(muralAdapter);
-
             }
 
             @Override
