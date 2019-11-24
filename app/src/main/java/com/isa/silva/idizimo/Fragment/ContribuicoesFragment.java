@@ -14,14 +14,23 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.isa.silva.idizimo.Activity.CadastroActivity;
 import com.isa.silva.idizimo.Activity.HomeActivity;
+import com.isa.silva.idizimo.Model.Contribuicoes;
 import com.isa.silva.idizimo.R;
 import com.isa.silva.idizimo.Utils.Util;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 import cieloecommerce.sdk.Merchant;
@@ -49,6 +58,9 @@ public class ContribuicoesFragment extends Fragment {
     private EditText edt_doacao;
     private String paymentId;
     private int paymentValor;
+    private FirebaseAuth firebase = new FirebaseAuth(FirebaseApp.getInstance());
+    private DatabaseReference mDatabase;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contribuicoes, container, false);
@@ -62,6 +74,8 @@ public class ContribuicoesFragment extends Fragment {
                 if(resul.getPayment().getReturnMessage() == "Não autenticada"){
                     Util.showMessage(getContext(), "Ops", "Você precisa autenticar para que sua contribuição seja efetuada com sucesso. \n Tente novamente!!");
                 }else {
+                    Calendar data = Calendar.getInstance();
+                    writeNewContribuicoes(firebase.getUid(), paymentValor, "", "Debito", data.toString(), "");
                     Util.showMessage(getContext(), "Parabéns", "Sua contribuição no valor de R$" + paymentValor +",00 foi efetuada com sucesso!!");
                 }
             } catch (ExecutionException e) {
@@ -172,6 +186,13 @@ public class ContribuicoesFragment extends Fragment {
             String resultado = resul.getReturnMessage();
             if(resultado.equals("Operation Successful")){
                 Util.showMessage(getContext(), "Parabéns", "Sua contribuição no valor de R$" + Valor +",00 foi efetuada com sucesso!!");
+
+
+                Calendar data = Calendar.getInstance();
+
+
+                writeNewContribuicoes(firebase.getUid(), Valor, nCartao.split(".")[3], "Credito", data.toString(),brandCartao);
+
                 ContribuicoesFragment debito = new ContribuicoesFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, debito )
@@ -274,5 +295,32 @@ public class ContribuicoesFragment extends Fragment {
         a.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spn_funcao.setAdapter(a);
 
+    }
+
+
+    private void writeNewContribuicoes(String userId, int valor, String finalcartao, String forma, String data, String banderiacartao) {
+         Contribuicoes contribuicoes = new Contribuicoes(userId, valor, finalcartao,  forma, data, banderiacartao);
+
+        // Write a message to the database
+        mDatabase = FirebaseDatabase.getInstance().getReference("Contribuicoes");
+
+        mDatabase.child(userId).child(valor+finalcartao+data).setValue(contribuicoes).addOnSuccessListener(
+                getActivity(), new OnSuccessListener(){
+                    @Override
+                    public void onSuccess(Object o) {
+                        Toast.makeText(getActivity(), "Salvos com sucesso", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ).addOnFailureListener(
+                getActivity(), new OnFailureListener() {
+
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        );
     }
 }

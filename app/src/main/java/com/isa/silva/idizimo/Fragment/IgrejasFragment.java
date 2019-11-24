@@ -50,23 +50,8 @@ public class IgrejasFragment extends Fragment {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         final Igrejas c = postSnapshot.getValue(Igrejas.class);
                         Log.i("URL FOTO", c.getUrl());
-                        if (!c.getUrl().isEmpty()) {
-                            StorageReference storage = FirebaseStorage.getInstance().getReference();
-                            storage.child(c.getUrl()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    c.setUrl(uri.toString());
-                                    igrejaPost.add(c);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-                                    igrejaPost.add(c);
-                                }
-                            });
-                        }else{
-                            igrejaPost.add(c);
-                        }
+
+                        igrejaPost.add(c);
                     }
                     IgrejaAdapter muralAdapter = new IgrejaAdapter(getContext(), igrejaPost);
                     RecyclerView.LayoutManager layoutManager;

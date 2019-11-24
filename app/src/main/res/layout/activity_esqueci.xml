@@ -21,24 +21,27 @@
             android:layout_margin="15dp"
             android:orientation="vertical">
 
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/ic_app" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="30dp"
-                android:text="Esqueci a senha"
+                android:layout_marginBottom="20dp"
                 android:background="@null"
                 android:paddingLeft="5dp"
+                android:text="Esqueci a senha"
                 android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="30dp"
+                android:textColor="@color/blue300"
+                android:textSize="25dp"
                 android:textStyle="bold" />
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:src="@drawable/ic_monster" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -85,7 +88,7 @@
                         android:id="@+id/btn_voltar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/menuRed"
+                        android:background="@color/blue200"
                         android:text="Voltar"
                         android:textColor="@color/colorPrimary" />
                 </androidx.cardview.widget.CardView>
@@ -101,7 +104,7 @@
                         android:id="@+id/btn_entrar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="@color/blue300"
                         android:text="Enviar"
                         android:textColor="@color/colorPrimary" />
                 </androidx.cardview.widget.CardView>

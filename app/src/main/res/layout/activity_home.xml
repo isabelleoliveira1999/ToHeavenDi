@@ -29,7 +29,7 @@
         <ImageView android:layout_width="40dp"
                    android:layout_height="40dp"
                    android:id="@+id/img_ico"
-                   android:src="@drawable/ic_monster"
+                   android:src="@drawable/ic_app_white"
                    android:layout_gravity="right"
         />
         </LinearLayout>

@@ -53,7 +53,6 @@ public class DebitoFragment extends Fragment {
                 ContribuicoesFragment debito = new ContribuicoesFragment();
                 Bundle bundles = new Bundle();
                 bundles.putString("paymentId", paymentId);
-                bundles.putString("paymentId", paymentId);
                 bundles.putInt("valor", paymentValor);
                 debito.setArguments(bundles);
                 getActivity().getSupportFragmentManager().beginTransaction()

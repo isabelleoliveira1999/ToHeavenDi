@@ -1,5 +1,6 @@
 package com.isa.silva.idizimo.Fragment;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -35,13 +36,15 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<Home> home = new ArrayList<Home>();
+    private ProgressDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = view.findViewById(R.id.rv_mural);
-
-
+        dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("Aguarde...");
+        dialog.show();
         DatabaseReference dbPosts = FirebaseDatabase.getInstance().getReference("Home");
         home.clear();
         dbPosts.addValueEventListener(new ValueEventListener() {
@@ -49,23 +52,9 @@ public class HomeFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     final Home c = postSnapshot.getValue(Home.class);
-                    if (!c.getUrl().isEmpty()) {
-                        StorageReference storage = FirebaseStorage.getInstance().getReference();
-                        storage.child(c.getUrl()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                c.setUrl(uri.toString());
-                                home.add(c);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                home.add(c);
-                            }
-                        });
-                    }else{
+
                         home.add(c);
-                    }
+
                 }
                 HomeAdapter muralAdapter = new HomeAdapter(getContext(), home);
                 RecyclerView.LayoutManager layoutManager;
@@ -73,13 +62,14 @@ public class HomeFragment extends Fragment {
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setAdapter(muralAdapter);
+                dialog.hide();
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
 
         return view;
 

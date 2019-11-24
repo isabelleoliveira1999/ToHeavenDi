@@ -24,10 +24,10 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp"
-                android:src="@drawable/ic_monster" />
+                android:src="@drawable/ic_app" />
 
 
             <LinearLayout
@@ -52,7 +52,7 @@
                         android:layout_margin="20dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="20dp"
-                        android:text="Aplicativo desenvolvido pela empresa ' ' com a finalidade de facilitar a comunição entre as Igrejas e seus membros."
+                        android:text="Aplicativo desenvolvido pela empresa I &amp; M Sistemas  com a finalidade de facilitar a comunição entre as Igrejas e seus membros."
                         android:textAlignment="center"
                         android:textColor="@color/menuBlack"
                         android:textSize="18dp" />

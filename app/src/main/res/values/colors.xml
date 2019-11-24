@@ -9,4 +9,9 @@
     <color name="menuWhite">#f3f3f3</color>
     <color name="backgroundGray">#ebecff</color>
     <color name="iconAzul">#87CEEB</color>
+
+    <color name="blue400">#01233f</color>
+    <color name="blue300">#1761a0</color>
+    <color name="blue200">#4c96d7</color>
+    <color name="blue100">#8dcaff</color>
 </resources>

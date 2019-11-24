@@ -150,7 +150,7 @@ public class AdmFragment extends Fragment {
         // Write a message to the database
         mDatabase = FirebaseDatabase.getInstance().getReference("OracoesPosts");
 
-        mDatabase.child(titulo+userId).setValue(oracoes).addOnSuccessListener(
+        mDatabase.child(userId).child(titulo+userId).setValue(oracoes).addOnSuccessListener(
                 getActivity(), new OnSuccessListener(){
                     @Override
                     public void onSuccess(Object o) {
@@ -176,7 +176,7 @@ public class AdmFragment extends Fragment {
         // Write a message to the database
         mDatabase = FirebaseDatabase.getInstance().getReference("Home");
 
-        mDatabase.child(titulo+userId).setValue(home).addOnSuccessListener(
+        mDatabase.child(userId).child(titulo+userId).setValue(home).addOnSuccessListener(
                 getActivity(), new OnSuccessListener(){
                     @Override
                     public void onSuccess(Object o) {
@@ -202,7 +202,7 @@ public class AdmFragment extends Fragment {
         // Write a message to the database
         mDatabase = FirebaseDatabase.getInstance().getReference("IgrejaPosts");
 
-        mDatabase.child(autor+userId).setValue(igrejas).addOnSuccessListener(
+        mDatabase.child(userId).child(autor+userId).setValue(igrejas).addOnSuccessListener(
                 getActivity(), new OnSuccessListener(){
                     @Override
                     public void onSuccess(Object o) {
@@ -236,7 +236,7 @@ public class AdmFragment extends Fragment {
         StorageReference storageRef = storage.getReference("/imagens_home");
 
         Uri file = Uri.fromFile(new File(data));
-        StorageReference riversRef = storageRef.child(file.getLastPathSegment());
+        final StorageReference riversRef = storageRef.child(file.getLastPathSegment());
         UploadTask uploadTask = riversRef.putFile(file);
 
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -248,14 +248,21 @@ public class AdmFragment extends Fragment {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Log.e("Sucesso", taskSnapshot.getMetadata().getPath());
+                riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
 
-                if(selected == "Orações"){
-                    writeNewOracoes(firebase.getUid(), post, autor, titulo, dataz, taskSnapshot.getMetadata().getPath());
-                }else if(selected == "Home"){
-                    writeNewHome(firebase.getUid(), post, autor, titulo, dataz, firebase.getCurrentUser().getEmail(), taskSnapshot.getMetadata().getPath() );
-                }else if(selected == "Igreja"){
-                    writeNewIgrejas(firebase.getUid(),post, autor, taskSnapshot.getMetadata().getPath(), dataz );
-                }
+
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        if(selected == "Orações"){
+                            writeNewOracoes(firebase.getUid(), post, autor, titulo, dataz, uri.toString());
+                        }else if(selected == "Home"){
+                            writeNewHome(firebase.getUid(), post, autor, titulo, dataz, firebase.getCurrentUser().getEmail(), uri.toString() );
+                        }else if(selected == "Igreja"){
+                            writeNewIgrejas(firebase.getUid(),post, autor,uri.toString(), dataz );
+                        }
+                    }
+                });
+
             }
         });
     }

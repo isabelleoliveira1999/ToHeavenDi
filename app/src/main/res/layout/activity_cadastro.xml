@@ -22,14 +22,15 @@
             android:layout_margin="15dp"
             android:layout_height="match_parent">
 
-            <TextView android:layout_width="match_parent"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="Cadastro"
-                android:textStyle="bold"
-                android:textSize="30dp"
                 android:layout_marginBottom="30dp"
+                android:text="Cadastro"
                 android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark"/>
+                android:textColor="@color/blue300"
+                android:textSize="30dp"
+                android:textStyle="bold" />
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,7 +98,7 @@
                         android:layout_height="25dp"
                         android:paddingTop="10dp"
                         android:src="@drawable/ic_mail"/>
-                    <TextView android:id="@+id/edt_mail"
+                    <EditText android:id="@+id/edt_mail"
                         android:hint="@string/mail"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -214,7 +215,7 @@
                         android:id="@+id/btn_voltar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/menuRed"
+                        android:background="@color/blue100"
                         android:text="Voltar"
                         android:textColor="@color/colorPrimary" />
                 </androidx.cardview.widget.CardView>
@@ -230,7 +231,7 @@
                         android:id="@+id/btn_contribuir"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="@color/blue200"
                         android:text="Cadastrar"
                         android:textColor="@color/colorPrimary" />
                 </androidx.cardview.widget.CardView>
